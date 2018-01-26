@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.net.URL;
 import java.util.Iterator;
 
 import org.apache.jena.ontology.Individual;
@@ -28,9 +29,16 @@ public class UpdateOnto {
 	public static void main(String[] args) throws FileNotFoundException {
 		// TODO Auto-generated method stub
 		
+			
 		// Lectura de ontologia a modificar
 		
-		String fileNameOntoInput = "/Users/JONATHAN/Desktop/ONTOLOGIA/TI.rdf";
+		//Get file from resources folder
+		
+		URL u = ClassLoader.getSystemClassLoader().getResource("TI.rdf");
+		
+		System.out.println(u);		
+		
+		/*String fileNameOntoInput = "/Users/JONATHAN/Desktop/ONTOLOGIA/TI.rdf";
 		
 		File file_onto = new File(fileNameOntoInput);
 		FileReader reader = new FileReader(file_onto);
@@ -94,11 +102,11 @@ public class UpdateOnto {
 		person.addSubClass(professor);
 		
 		// Crear individuo        
-        Individual paper = model.createIndividual(ontologyURI + "#paper1", student);
+        Individual paper = model.createIndividual(ontologyURI + "#paper1", student);*/
 		
 		// Grabar en archivo la ontología modificada.
 		
-		StringWriter sw = new StringWriter();
+		/*StringWriter sw = new StringWriter();
 		model.write(sw, "RDF/XML");
 		String owlCode = sw.toString();
 		
@@ -111,7 +119,7 @@ public class UpdateOnto {
 		    fnfe.printStackTrace();
 		} catch(IOException ioe){
 		    ioe.printStackTrace();
-		}
+		}*/
 	}
 
 }
