@@ -32,15 +32,11 @@ public class UpdateOnto {
 			
 		// Lectura de ontologia a modificar
 		
-		//Get file from resources folder
+		ClassLoader classLoader = UpdateOnto.class.getClassLoader();
+		File file_onto = new File(classLoader.getResource("TI.rdf").getFile());
+		//System.out.println(file.getAbsolutePath());
 		
-		URL u = ClassLoader.getSystemClassLoader().getResource("TI.rdf");
-		
-		System.out.println(u);		
-		
-		/*String fileNameOntoInput = "/Users/JONATHAN/Desktop/ONTOLOGIA/TI.rdf";
-		
-		File file_onto = new File(fileNameOntoInput);
+		//File file_onto = new File(fileNameOntoInput);
 		FileReader reader = new FileReader(file_onto);
 		OntModel model = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM);
 		
@@ -101,8 +97,8 @@ public class UpdateOnto {
 		person.addSubClass(student);
 		person.addSubClass(professor);
 		
-		// Crear individuo        
-        Individual paper = model.createIndividual(ontologyURI + "#paper1", student);*/
+		// Crear individuo
+        Individual paper = model.createIndividual(ontologyURI + "#paper1", student);
 		
 		// Grabar en archivo la ontología modificada.
 		
