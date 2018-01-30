@@ -43,13 +43,35 @@
 
     <!-- http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Frameworks -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Frameworks"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Frameworks">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Programación"/>
+    </owl:Class>
     
 
 
-    <!-- http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Lenguaje_Programación -->
+    <!-- http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Gestión -->
 
-    <owl:Class rdf:about="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Lenguaje_Programación"/>
+    <owl:Class rdf:about="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Gestión"/>
+    
+
+
+    <!-- http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Lenguaje -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Lenguaje">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Programación"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Programación -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Programación"/>
+    
+
+
+    <!-- http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Redes -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Redes"/>
     
 
 
@@ -64,10 +86,18 @@
     
 
 
+    <!-- http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#CISCO -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#CISCO">
+        <rdf:type rdf:resource="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Redes"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#C_Sharp -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#C_Sharp">
-        <rdf:type rdf:resource="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Lenguaje_Programación"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Lenguaje"/>
         <sinonimo>C#,prueba</sinonimo>
     </owl:NamedIndividual>
     
@@ -92,7 +122,7 @@
     <!-- http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Java -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Java">
-        <rdf:type rdf:resource="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Lenguaje_Programación"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Lenguaje"/>
     </owl:NamedIndividual>
     
 
@@ -100,7 +130,7 @@
     <!-- http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#NodeJs -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#NodeJs">
-        <rdf:type rdf:resource="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Lenguaje_Programación"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Lenguaje"/>
     </owl:NamedIndividual>
     
 
@@ -108,7 +138,7 @@
     <!-- http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Python -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Python">
-        <rdf:type rdf:resource="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Lenguaje_Programación"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/jonathan/ontologies/2017/11/TI#Lenguaje"/>
     </owl:NamedIndividual>
 </rdf:RDF>
 

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.jena.ontology.Individual;
@@ -22,32 +23,26 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.util.FileManager;
 
+import com.google.gson.Gson;
 import com.tesis.entidades.IndividuoTI;
+import com.tesis.entidades.JsTree;
+import com.tesis.entidades.OntoJsTree;
 
 public class UpdateOnto {
 
 	public static void main(String[] args) throws FileNotFoundException {
-		// TODO Auto-generated method stub
 		
-			
 		// Lectura de ontologia a modificar
-		
 		ClassLoader classLoader = UpdateOnto.class.getClassLoader();
-		File file_onto = new File(classLoader.getResource("TI.rdf").getFile());
-		//System.out.println(file.getAbsolutePath());
+		File file_onto = new File(classLoader.getResource("TI.rdf").getFile());		
+		//Este arreglo guardará los nodos de la ontología
+		ArrayList<OntoJsTree> listOntoNodo = new ArrayList<OntoJsTree>();
 		
-		//File file_onto = new File(fileNameOntoInput);
 		FileReader reader = new FileReader(file_onto);
 		OntModel model = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM);
 		
-		//OntModelSpec.OWL_DL_MEM
-		
 		model.read(reader,null);
-	    model.write(System.out,"RDF/XML");
-			
-		
-		// crear una ontología teniendo como base al input
-		//OntModel inf = ModelFactory.createOntologyModel(OntModelSpec.OWL_DL_MEM_RDFS_INF, model);
+	    //model.write(System.out,"RDF/XML");
 		
 		String ontologyURI = null;
 		String ontologyNS = null;
@@ -61,9 +56,65 @@ public class UpdateOnto {
 		    System.out.println("Ontology NS = "+ontologyNS);
 		}
 		
-		// Obtener individuos
+		// Recorremos la ontologia y guardamos cada nodo en una lista
+		for (Iterator<OntClass> i = model.listClasses();i.hasNext();){
+			OntClass cls = i.next();			
+			OntClass clsParent = cls.getSuperClass();
+			
+			listOntoNodo.add(new OntoJsTree(cls, clsParent));
+			
+			for(Iterator it = cls.listInstances(true);it.hasNext();){
+				Individual ind = (Individual) it.next();
+				if(ind.isIndividual()){
+					listOntoNodo.add(new OntoJsTree(ind, cls));
+				}
+			}
+		}
 		
-		Iterator individuals = model.listIndividuals();
+		
+		for(OntoJsTree item : listOntoNodo){
+			
+			if(item.getNodeParent() != null)			
+				System.out.println("Child: " + item.getNodeChild().getLocalName() + " - Parent: " + item.getNodeParent().getLocalName());
+			else
+				System.out.println("Child: " + item.getNodeChild().getLocalName() + " - Parent: no tiene" );
+		}		
+		
+		
+		ArrayList<JsTree> nodesList = new ArrayList<JsTree>();
+
+        for (OntoJsTree ontoNodo : listOntoNodo){
+        	
+            if (ontoNodo.getNodeParent() == null){
+
+            	JsTree jsNodo = new JsTree();
+            	//jsNodo.setId( ontoNodo.getNodeChild() );
+            	jsNodo.setParent("#");
+            	jsNodo.setText( ontoNodo.getNodeChild().getLocalName() );
+                //$node->a_attr = new StdClass();                
+                
+                if (GrupoTieneHijos(ontoNodo.getNodeChild().getLocalName() , listOntoNodo) == true){
+                    
+                        //$node->state = new StdClass();
+                        //$node->state->opened = TRUE;
+
+
+                	ArrayList<JsTree> resultado = ConstruirNodoHijo(listOntoNodo, ontoNodo);
+
+                    if (resultado != null) jsNodo.setChildren(resultado);
+                }
+                nodesList.add(jsNodo);
+            }
+        }
+        
+        
+        Gson gson = new Gson();
+        String json = gson.toJson(nodesList);
+        
+        System.out.println(json);
+		
+		
+		/*Iterator individuals = model.listIndividuals();
 		while(individuals.hasNext()){
 			Individual individual = (Individual) individuals.next();
 			
@@ -98,7 +149,7 @@ public class UpdateOnto {
 		person.addSubClass(professor);
 		
 		// Crear individuo
-        Individual paper = model.createIndividual(ontologyURI + "#paper1", student);
+        Individual paper = model.createIndividual(ontologyURI + "#paper1", student);*/
 		
 		// Grabar en archivo la ontología modificada.
 		
@@ -116,6 +167,57 @@ public class UpdateOnto {
 		} catch(IOException ioe){
 		    ioe.printStackTrace();
 		}*/
+	}
+	
+    protected static boolean GrupoTieneHijos(String idpadre, ArrayList<OntoJsTree> listado)
+    {
+
+        boolean tieneHijo = false;
+        for (OntoJsTree node : listado) {
+            if(node.getNodeParent() != null ){
+	            if ( node.getNodeParent().getLocalName().equals(idpadre) ) {
+	                tieneHijo = true;
+	                break;
+	            }
+            }
+        }
+        return tieneHijo;
+    }
+
+	protected static ArrayList<JsTree> ConstruirNodoHijo(ArrayList<OntoJsTree> listado, OntoJsTree nodo)
+	{
+	   	ArrayList<JsTree> listadoHijos = new ArrayList<JsTree>();
+
+	    if (nodo.getNodeChild() != null) {
+	        int hijos = 0;
+
+	        for(OntoJsTree nodo_recorrido_actual : listado) {
+	        	if(nodo_recorrido_actual.getNodeParent() != null ){
+		            if ( nodo_recorrido_actual.getNodeParent().getLocalName().equals(nodo.getNodeChild().getLocalName()) ) {
+		                JsTree nodoTmp = new JsTree();
+	                	//$node->id = $contexto_recorrido_actual['i;
+		                nodoTmp.setText( nodo_recorrido_actual.getNodeChild().getLocalName() );
+	                    
+	                	//$node->a_attr = new StdClass();
+	                    //$node->a_attr->data_es_modal = $contexto_recorrido_actual['esmodal'];
+	
+		                if (GrupoTieneHijos(nodo_recorrido_actual.getNodeChild().getLocalName(), listado))
+		                {
+	                        //$node->state = new StdClass();
+	                        //$node->state->opened = TRUE;
+	
+	                        ArrayList<JsTree> resultado = ConstruirNodoHijo(listado, nodo_recorrido_actual);
+	                        nodoTmp.setChildren(resultado);
+		                }
+	
+		                listadoHijos.add(nodoTmp);
+	
+		            }
+	        	}
+	        }
+	    }
+
+	    return listadoHijos;
 	}
 
 }
