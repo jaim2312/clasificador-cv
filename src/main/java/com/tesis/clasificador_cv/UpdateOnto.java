@@ -114,31 +114,7 @@ public class UpdateOnto {
         System.out.println(json);
 		
 		
-		/*Iterator individuals = model.listIndividuals();
-		while(individuals.hasNext()){
-			Individual individual = (Individual) individuals.next();
-			
-			System.out.println("----------------------------");
-			System.out.println(individual.getLocalName());
-			System.out.println("--> Propiedades");
-			
-			//individual.getc
-			
-			StmtIterator propIter = individual.listProperties();
-
-	        while (propIter.hasNext()) {
-	        	Statement s = (Statement) propIter.next();
-
-	            if (s.getObject().isLiteral()) {
-	                //System.out.println(""+s.getLiteral().getLexicalForm().toString()+" type = "+s.getPredicate().getLocalName());
-	            	System.out.println(s.getPredicate().getLocalName() + " - " + s.getLiteral().getLexicalForm().toString());
-	            }
-	        }
-	        
-			System.out.println("----------------------------");
-		}
-		
-		
+		/*
 		//create classes
 		OntClass person = model.createClass(ontologyURI+"#Person");
 		OntClass student = model.createClass(ontologyURI+"#Student");
