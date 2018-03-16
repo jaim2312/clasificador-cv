@@ -43,7 +43,6 @@ public class UpdateOnto {
 		
 		model.read(reader,null);
 	    //model.write(System.out,"RDF/XML");
-		
 		String ontologyURI = null;
 		String ontologyNS = null;
 		Iterator iter = model.listOntologies();
@@ -78,7 +77,7 @@ public class UpdateOnto {
 				System.out.println("Child: " + item.getNodeChild().getLocalName() + " - Parent: " + item.getNodeParent().getLocalName());
 			else
 				System.out.println("Child: " + item.getNodeChild().getLocalName() + " - Parent: no tiene" );
-		}		
+		}
 		
 		
 		ArrayList<JsTree> nodesList = new ArrayList<JsTree>();

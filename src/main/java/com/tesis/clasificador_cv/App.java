@@ -58,11 +58,10 @@ public class App
         //System.out.println(text);
 
         //Closing the document
-        document.close();*/        
+        document.close();*/
         
 
-
-		String fileNameOnto = "/Volumes/DATOS/TI_test.owl";
+		String fileNameOnto = "/Users/JONATHAN/Desktop/ONTOLOGIA/TI.rdf";
 		
 		try {
 			File file_onto = new File(fileNameOnto);
