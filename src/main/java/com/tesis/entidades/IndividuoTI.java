@@ -6,7 +6,14 @@ public class IndividuoTI {
 	private Individual individuo;
 	private String descripcion;
 	private int longitud;
+	private boolean bEncontrado;
 	
+	public boolean isbEncontrado() {
+		return bEncontrado;
+	}
+	public void setbEncontrado(boolean bEncontrado) {
+		this.bEncontrado = bEncontrado;
+	}
 	public Individual getIndividuo() {
 		return individuo;
 	}
