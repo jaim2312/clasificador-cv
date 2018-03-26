@@ -118,4 +118,19 @@ public class Util {
 		
 		return individuos;
 	}
+	
+	public static String getNumWordByN(String[] arr,int since, int n){
+		//String[] arr = arrWords(cad);
+		String result = null;
+		
+		if((since+n-1) <= arr.length){
+			result = "";
+			for(int i=0;i<n;i++){
+				result = result + arr[i+since-1] + " "; 
+			}
+			result = result.trim();
+		}
+		
+		return result; 
+	}
 }

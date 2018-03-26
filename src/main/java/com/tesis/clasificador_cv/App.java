@@ -129,7 +129,7 @@ public class App
 				        			ind_sinonimos.add(item.getDescripcion());
 				        			
 				        			//System.out.println(numLine+ " - " + lineClean +" - "+ind_sinonimos);
-				        			//System.out.println(numLine + " - " + ind_sinonimos);
+				        			System.out.println(numLine + " - " + ind_sinonimos);
 				        			
 				        			searchOntoLoop:
 				        			// Recorro al individuo con todo sus sinonimos
@@ -137,24 +137,48 @@ public class App
 				        				// Verifico cuantas palabras tiene el sinónimos
 				        				String[] sinoni_palab = Util.arrWords(ind_sin);
 
-				        				System.out.println("\t"+ind_sin);
+				        				//System.out.println(sinoni_palab);
 				        				
 				        				if(sinoni_palab.length > 1){
 				        					//System.out.println("Tiene mas de una palabra: "+ind_sin);
+				        					
+				        					String[] line_palab = Util.arrWords(lineClean);
+				        					
+				        					for(int i=0;i<line_palab.length-sinoni_palab.length+1;i++){
+				        						
+				        						String subcadena = Util.getNumWordByN(line_palab,i+1,sinoni_palab.length);
+				        						
+				        						//System.out.println("\t"+Util.getNumWordByN(line_palab,i+1,sinoni_palab.length));
+				        						
+				        						JaroWinkler jw = new JaroWinkler();									
+												double porcSim = jw.similarity(ind_sin, subcadena);												
+												
+												if( porcSim >= 0.9 ){
+						    										    			
+									    			PorcSim sim = new PorcSim();
+									    			sim.setIndividuo(item);
+									    			sim.setNumLinea(numLine);
+									    			sim.setDescLinea(lineClean);
+									    			sim.setSubCadena(subcadena);
+									    			sim.setPorcentaje(porcSim);
+									    			
+									    			//Individuo encontrado
+									    			item.setbEncontrado(true);
+									    			
+									    			arrIndividuoEncont.add(sim);
+									    			break searchOntoLoop;
+												}
+				        						
+				        					}				        					
+				        					
 				        				}else{
 				        					// Obtener todas las palabras de la cadena y compararlas con el sinonimo
-				        					String[] line_palab = Util.arrWords(lineClean);				        					
+				        					String[] line_palab = Util.arrWords(lineClean);		        					
 				        					
 				        					for(String palabra : line_palab){				        						
 				        						
-				        						//System.out.print(palabra+" ");
-				        						
 				        						JaroWinkler jw = new JaroWinkler();									
-												double porcSim = jw.similarity(ind_sin, palabra);									
-												
-				        						/*if(numLine == 36){
-				        							System.out.println("\t\t"+palabra+" - "+porcSim);
-				        						}*/
+												double porcSim = jw.similarity(ind_sin, palabra);												
 												
 												if( porcSim >= 0.9 ){
 						    										    			
@@ -166,7 +190,7 @@ public class App
 									    			sim.setPorcentaje(porcSim);
 									    			
 									    			//Individuo encontrado
-									    			//item.setbEncontrado(true);
+									    			item.setbEncontrado(true);
 									    			
 									    			//System.out.print(" Encontrado\n");
 									    			
@@ -174,36 +198,7 @@ public class App
 									    			break searchOntoLoop;
 												}			        						
 				        					}
-				        				}
-				        				
-				        				
-					        			//if( lineClean.length() >= item.getLongitud() ) {
-				        				/*if( lineClean.length() >= ind_sin.length() ) {
-											
-											//int caract_delimitador = lineClean.length() - item.getLongitud();
-											
-											//Recorrer palabras de cada línea
-											//for(int x = 0; x <= caract_delimitador ; x++){
-				        					for(String : ){
-												
-										        JaroWinkler jw = new JaroWinkler();
-												String subcadena = lineClean.substring(x, x + item.getLongitud());									
-												double porcSim = jw.similarity(item.getDescripcion(), subcadena);									
-												
-												if( porcSim >= 0.9 ){
-						    										    			
-									    			PorcSim sim = new PorcSim();
-									    			sim.setIndividuo(item);
-									    			sim.setNumLinea(numLine);
-									    			sim.setDescLinea(lineClean);
-									    			sim.setSubCadena(subcadena);
-									    			sim.setPorcentaje(porcSim);
-									    			
-									    			arrIndividuoEncont.add(sim);
-									    			break searchOntoLoop;
-												}				
-											}		        			
-					        			}else continue;*/
+				        				}				        								        				
 					        			
 				        			}
 								}
@@ -215,10 +210,10 @@ public class App
 				
 			        for(PorcSim encontrado : arrIndividuoEncont) {
 			        	System.out.println("Individuo: " + encontrado.getIndividuo().getDescripcion());
-			        	System.out.println("Subcadena: " + encontrado.getSubCadena());
-			        	System.out.println("Nº Linea: " + encontrado.getNumLinea());
-			        	System.out.println("Linea: " + encontrado.getDescLinea() );
-			        	System.out.println("Porcentaje: " + encontrado.getPorcentaje());
+			        	System.out.println("\tSubcadena: " + encontrado.getSubCadena());
+			        	System.out.println("\tNº Linea: " + encontrado.getNumLinea());
+			        	System.out.println("\tLinea: " + encontrado.getDescLinea() );
+			        	System.out.println("\tPorcentaje: " + encontrado.getPorcentaje());
 			        }
 			        
 			        
